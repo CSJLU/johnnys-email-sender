@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 import sqlite3
+import email_sender
 
 app = Flask(__name__, static_url_path='/static')
+
 
 def get_db_connection():
     connection = sqlite3.connect("database.db")
@@ -9,7 +11,6 @@ def get_db_connection():
     return connection, cursor
 
 #all_emails = c.fetchall()
-
 
 #home directory
 @app.route('/')
@@ -34,6 +35,16 @@ def put_email():
 
     return render_template('success.html')
 
+
+def retrieve_email_and_send():
+    connection, cursor = get_db_connection()
+    cursor.execute("SELECT * FROM emails")
+    connection.commit()
+    for recipient in cursor.fetchall():
+        email_sender.send_email(email_sender.sender_email, recipient)
+    connection.close()
+
+retrieve_email_and_send()
 
 #create sqlite3 database and put email from request into database
 
