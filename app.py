@@ -1,6 +1,16 @@
 from flask import Flask, render_template, request
+import sqlite3
+
 
 app = Flask(__name__, static_url_path='/static')
+
+def get_db_connection():
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+    return connection, cursor
+
+#all_emails = c.fetchall()
+
 
 #home directory
 @app.route('/')
@@ -8,12 +18,28 @@ def main():
     return render_template('index.html')
 
 
-@app.route('/send_email', methods=['POST'])
+@app.route('/send_email', methods=['GET', 'POST'])
 def send_email():
     if request.method == 'POST':
         email = request.form['email']
+        #Connects to database and creates cursor
+        connection, cursor = get_db_connection()
+
+        #connect = sqlite3.connect("database.db")
+
+
+        #cursor.execute("CREATE TABLE IF NOT EXISTS emails (email text unique)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS emails (email TEXT UNIQUE)")
+        #Put all emails into existing emails database table
+        cursor.execute("INSERT OR IGNORE INTO emails VALUES (?)", (email,))
+        cursor.execute("SELECT * FROM emails")
+        #cursor.execute("DELETE FROM emails")
+        connection.commit()
+        connection.close()
 
     return render_template('success.html')
+
+
 
 #create sqlite3 database and put email from request into database
 
