@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import sqlite3
 
-
 app = Flask(__name__, static_url_path='/static')
 
 def get_db_connection():
@@ -18,8 +17,8 @@ def main():
     return render_template('index.html')
 
 
-@app.route('/send_email', methods=['GET', 'POST'])
-def send_email():
+@app.route('/put_email', methods=['GET', 'POST'])
+def put_email():
     if request.method == 'POST':
         email = request.form['email']
         #Connects to database and creates cursor
@@ -34,7 +33,6 @@ def send_email():
         connection.close()
 
     return render_template('success.html')
-
 
 
 #create sqlite3 database and put email from request into database
