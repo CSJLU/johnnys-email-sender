@@ -24,11 +24,7 @@ def send_email():
         email = request.form['email']
         #Connects to database and creates cursor
         connection, cursor = get_db_connection()
-
-        #connect = sqlite3.connect("database.db")
-
-
-        #cursor.execute("CREATE TABLE IF NOT EXISTS emails (email text unique)")
+        #Create emails table
         cursor.execute("CREATE TABLE IF NOT EXISTS emails (email TEXT UNIQUE)")
         #Put all emails into existing emails database table
         cursor.execute("INSERT OR IGNORE INTO emails VALUES (?)", (email,))
