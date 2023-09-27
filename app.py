@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import sqlite3
 import email_sender
+import schedule, time
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -44,7 +45,11 @@ def retrieve_email_and_send():
         email_sender.send_email(email_sender.sender_email, recipient)
     connection.close()
 
-retrieve_email_and_send()
+def schedule_email():
+    schedule.every(1).days.do(retrieve_email_and_send())
+
+
+#retrieve_email_and_send()
 
 #create sqlite3 database and put email from request into database
 
@@ -57,3 +62,7 @@ retrieve_email_and_send()
 
 if __name__ == '__main__':
     app.run(debug=True)
+    schedule_email()
+    while True:
+        schedule.run_pending()
+        time.sleep(43200)
