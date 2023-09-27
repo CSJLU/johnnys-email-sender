@@ -1,10 +1,11 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-section{
+.registration-content{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,6 +15,49 @@ section{
     background-position: center;
     background-size: cover;
 }
+
+.success-content
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.success-content h2
+{
+    position: absolute;
+    color: white;
+    font-size: 8em;
+}
+
+.success-content h2:nth-child(1)
+{
+    color: transparent;
+    -webkit-text-stroke: 2px lightblue;
+}
+
+.success-content h2:nth-child(2)
+{
+    color: lightblue;
+    animation: animate 4s ease-in-out infinite;
+}
+
+@keyframes animate
+{
+    0%,100%
+    {
+        clip-path: polygon(0 46%, 15% 38%, 31% 36%, 41% 41%, 59% 49%, 73% 48%, 89% 41%, 100% 36%, 100% 99%, 1% 100%);
+    }
+    50%
+    {
+        clip-path: poly(0 28%, 15% 36%, 27% 42%, 44% 43%, 61% 38%, 76% 33%, 88% 28%, 100% 26%, 100% 99%, 1% 100%);
+    }
+}
+
+
+
 
 button{
     width: 80%;
